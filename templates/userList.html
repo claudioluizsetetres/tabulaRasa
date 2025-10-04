@@ -1,0 +1,105 @@
+<!-- importa o layout base do hmtl-->
+{% extends "layout.html" %}
+
+<!-- define o titulo dinamico-->
+{% block title %} Gerenciamento de leitores {% endblock %}
+
+<!-- define o conteudo dinamico-->
+{% block content %}
+<!--cria um cartão para organizar os objetos-->
+<div class="col-sm-11 col-lg-8 card p-5 my-5">
+
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <!--titulo da tabela (alinhado a esquerda)-->
+        <h3 class="card-title mb-0"> Gerenciamento de Leitores</h3>
+
+        <!--botão para novo cadastro (alinhado a direita)-->
+        <a class="btn btn-success bi bi-plus-circle-fill" href="{{ url_for('user_management.registerUser') }}">Novo Leitor</a>
+
+    </div>
+
+    <!--exibe as mensagens de feedback do back-end-->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+
+                    {{ message }}
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!--tabela-->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">E-mail</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Loop para exibir cada livro cadastrado no banco de dados -->
+                {% for usuario in cUser %}
+                <tr>
+                    <td>{{ usuario.nome }}</td>
+                    <td>{{ usuario.telefone }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>
+
+                        <!-- Botões de ação -->
+                        <a href="{{ url_for('user_management.editUser', cpf=usuario.cpf) }}" class="btn btn-primary btn-sm bi bi-pencil-square">Editar</a>
+                        <button type="button" class="btn btn-danger btn-sm bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#confirmDelete-{{ usuario.cpf}}">Excluir</button>
+                    </td>
+                </tr>
+
+                <!-- Modal de exclusão lógica -->
+                <div class="modal fade" id="confirmDelete-{{ usuario.cpf }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar Exclusão</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja excluir:
+                            <br>
+                            <strong>{{ usuario.nome }}</strong>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary bi bi-x-lg" data-bs-dismiss="modal">Não</button>
+                            <form method="post" action="{{ url_for('user_management.deleteUser', cpf=usuario.cpf) }}">
+                                <button type="submit" class="btn btn-danger bi bi-check-lg">Sim</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Mensagem caso não haja nenhum usuario -->
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum leitor cadastrado ainda...</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+{% endblock %}

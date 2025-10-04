@@ -1,0 +1,20 @@
+<!-- importa o layout base do hmtl-->
+{% extends "layout.html" %}
+
+<!-- define o titulo dinamico-->
+{% block title %} Painel {% endblock %}
+
+<!-- define o conteudo dinamico-->
+{% block content %}
+
+<div class="col-sm-11 col-lg-6 card p-5 my-5">
+
+    <h3> Bem-vindo(a), {{ session.user_name }}</h3>
+    <br>
+    <p>
+        Utilize o menu de navegação acima para gerenciar
+        usuários, livros, empréstimos e devoluções...
+    </p>
+
+</div>
+{% endblock %}

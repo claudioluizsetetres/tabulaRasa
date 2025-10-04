@@ -1,0 +1,109 @@
+<!-- importa o layout base do hmtl-->
+{% extends "layout.html" %}
+
+<!-- define o titulo dinamico-->
+{% block title %} Emprestimo de livros {% endblock %}
+
+<!-- define o conteudo dinamico-->
+{% block content %}
+
+<div class="col-sm-11 col-lg-6 card p-5 my-5">
+
+    <!--Titulo do formulário-->
+    <h3 class="card-title mb-3">Empréstimo de livros.</h3>
+    <br>
+<!--exibe as mensagens de feedback do back-end-->
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+
+                {{ message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+
+    <form method="POST" action="{{ url_for('emprestimo.registerEmprestimo') }}">
+        <div class="form-group mb-3">
+            <label for="leitor" class="form-label">Leitor:</label>
+            <select class="form-control" id="usuario" name="usuario">
+
+                <option value="su">Selecione um Leitor</option>
+                <!-- Opções de leitores devem ser inseridas dinamicamente -->
+                {% for user in dbUser %}
+                <option value="{{ user.id }}">{{ user.nome }}</option>
+                {% endfor %}
+                <option value="cnu">Cadastrar Novo Leitor</option>
+                
+            </select>
+
+            <script>
+                document.getElementById("usuario").addEventListener("change", function () {
+                    const valor = this.value;
+                    if (valor === "cnu") {
+                        window.location.href = "{{ url_for('user_management.registerUser') }}";
+                    }
+                });
+            </script>
+
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="livro" class="form-label">Livro:</label>
+            <select class="form-control" id="livro" name="livro">
+                
+                <option value="sl">Selecione um livro</option>
+                <!-- Opções de livros devem ser inseridas dinamicamente -->
+                {% for livro in dbLivros %}
+                <option value="{{ livro.id }}">{{ livro.titulo }}</option>
+                {% endfor %}
+                <option value="cnl">Cadastrar Novo Livro</option>
+            </select>
+
+            <script>
+                document.getElementById("livro").addEventListener("change", function () {
+                    const valor = this.value;
+                    if (valor === "cnl") {
+                        window.location.href = "{{ url_for('book_management.register_book') }}";
+                    }
+                });
+            </script>
+
+
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="dataEmprestimo" class="form-label">Data de Empréstimo:</label>
+            <input type="date" class="form-control" id="dataEmprestimo" name="dataEmprestimo"
+                value="{{ dtEmprestimo }}">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="dataDevolucao" class="form-label">Data de Devolução Prevista (15 dias):</label>
+            <input type="date" class="form-control" id="dataDevolucao" name="dataDevolucao" value="{{ dtDevolucao }}">
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirmar Empréstimo</button>
+    </form>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+{% endblock %}

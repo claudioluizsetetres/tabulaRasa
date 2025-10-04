@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <meta name="autor" content="Claudio Luiz da Cruz">
+    <meta name="description" content="Software de Gestão de Biblioteca">
+
+    <title>Devolução</title>
+
+    <!--CSS do bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+
+<body class="bg-body-tertiary">
+    <!--conteúdo principal-->
+    <div class="container-fluid px-0">
+
+        <!--Menu Navegação-->
+        <div class="row">
+
+            <div class="col-12">
+
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+
+                        <!--Logotipo-->
+                        <div class="d-flex alin-items-center">
+                            <img src="/templates/imagens/logoMenu.png" alt width="48" height="38" class="m-2">
+                            <a class="navbar-brand" href="main.html"><b>Tábula Rasa</b></a>
+                        </div>
+                        <!--botão sanduíche (mobile)-->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <!--itens do menu de navegação-->
+                        <div class="collapse navbar-collapse" id="navbarScroll">
+
+                            <ul class="navbar-nav me-auto my-2 navbar-nav-scroll">
+
+                                <!--livros-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="bookRegister.html">Livros</a>
+                                </li>
+
+                                <!--Usuários (leitores e bibliotecarios)-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="userRegister.html">Usuários</a>
+                                </li>
+
+                                <!--Empréstrimo-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="bookRental.html">Empréstimo</a>
+                                </li>
+
+                                <!--Devolução-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Devolução</a>
+                                </li>
+
+                            </ul>
+
+                            <!--logout do usuário-->
+                            <form class="d-flex" role="search">
+
+                                <button class="btn btn-outline-dark" type="submit">Sair</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+
+            </div>
+
+        </div>
+
+        <!--Conteúdo da página da web-->
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-sm-11 col-lg-6 card p-5 my-5">
+                <!--Titulo do formulário-->
+                <h3 class="card-title mb-3">Devolução</h3>
+                <form>
+                    <!-- CPF -->
+                    <div class="form-group mb-3">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf">
+                    </div>
+
+                    <!-- Código do Livro -->
+                    <div class="form-group mb-3">
+                        <label for="codigoLivro" class="form-label">Código do Livro</label>
+                        <input type="text" class="form-control" id="codigoLivro" name="codigoLivro">
+                    </div>
+
+                    <!-- Nome do Livro -->
+                    <div class="form-group mb-3">
+                        <label for="nomeLivro" class="form-label">Nome do Livro</label>
+                        <input type="text" class="form-control" id="nomeLivro" name="nomeLivro">
+                    </div>
+
+                    <!-- Data da Devolução -->
+                    <div class="form-group mb-3">
+                        <label for="dataDevolucao" class="form-label">Data da Devolução</label>
+                        <input type="date" class="form-control" id="dataDevolucao" name="dataDevolucao">
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="form-group mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha">
+                    </div>
+
+                    <!-- Botão de envio do formulário -->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary w-100">Registrar Devolução</button>
+                    </div>
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!--Java Script do bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
