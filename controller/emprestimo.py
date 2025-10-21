@@ -89,6 +89,10 @@ def listDevolucao():
         # fecha conexao bd
         connection.close()
 
+        # verifica se data de devolução é menor que hoje (para mudar a cor do texto)
+        for vencimento in tblEmprestimo:
+            vencimento.vencimento = vencimento.data_devolucao.date() <= date.today()
+
         # renderiza o html do listagem de emprestimos
         return render_template("bookRetorn.html", cEmprestimo=tblEmprestimo)
 
@@ -115,23 +119,25 @@ def registerEmprestimo():
 
             # recupera os dados enviados pelo formulario html
             idUser = request.form["usuario"]
-            idLivro = request.form["livro"]
+            idLivro = request.form.getlist("fLivros[]")
             dtEmprestimo = datetime.strptime(request.form["dataEmprestimo"], "%Y-%m-%d").date()# convertendo string de data (yyyy-dd-mm) 
             dtDevolucao = datetime.strptime(request.form["dataDevolucao"], "%Y-%m-%d").date()# convertendo string de data (yyyy-dd-mm)
 
-            # cria um objeto
-            novoEmprestimo = Emprestimo(
-                id_usuario = idUser,
-                id_livro = idLivro,
-                data_emprestimo = dtEmprestimo,
-                data_devolucao = dtDevolucao,
-                status = "Pendente",
-            )
+            # verifica a quantidade de livros selecionados e insere no banco de dados
+            for livroId in idLivro:
+                # cria um objeto
+                novoEmprestimo = Emprestimo(
+                    id_usuario = idUser,
+                    id_livro = livroId,
+                    data_emprestimo = dtEmprestimo,
+                    data_devolucao = dtDevolucao,
+                    status = "Pendente",
+                )
 
-            #inserir dados no banco de dados
-            connection.add(novoEmprestimo)
-            # confirma a trnasação
-            connection.commit()
+                #inserir dados no banco de dados
+                connection.add(novoEmprestimo)
+                # confirma a trnasação
+                connection.commit()
 
             # fecha a conexao
             connection.close()
@@ -145,7 +151,7 @@ def registerEmprestimo():
 
 
 # rota para devolução de livros
-@blueprint.route("/emprestimo/<string:id>/devolucao", methods=["GET"])
+@blueprint.route("/emprestimo/<string:id>/devolucao", methods=["POST"])
 def devolver(id):
 
     # verifica se o usuario esta logado
