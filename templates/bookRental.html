@@ -7,7 +7,7 @@
 <!-- define o conteudo dinamico-->
 {% block content %}
 
-<div class="col-sm-11 col-lg-6 card p-5 my-5">
+<div class="col-sm-11 col-lg-8 card p-5 my-5">
 
     <!--Titulo do formulário-->
     <h3 class="card-title mb-3">Empréstimo de livros.</h3>
@@ -61,10 +61,9 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="livro" class="form-label">Livro:</label>
-            <select class="form-control" id="livro" name="livro">
+            <label for="livro" class="form-label"><h6>Livros: (Segure o Ctrl, para selecionar vários livros)</h6></label>
+            <select class="form-control" id="livro" name="fLivros[]" multiple size="10">
                 
-                <option value="sl">Selecione um livro</option>
                 <!-- Opções de livros devem ser inseridas dinamicamente -->
                 {% for livro in dbLivros %}
                 <option value="{{ livro.id }}">{{ livro.titulo }}</option>
