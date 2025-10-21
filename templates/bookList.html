@@ -19,6 +19,9 @@
         <a class="btn btn-success bi bi-plus-circle-fill" href="{{ url_for('book_management.register_book') }}">Cadastrar Novo Livro</a>
 
     </div>
+    <div class="mb-3">
+        <input type="text" id="filtroLivro" class="form-control" placeholder="Pesquisar por Título">
+    </div>
 
     <!--exibe as mensagens de feedback do back-end-->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -43,7 +46,7 @@
 
     <!--tabela-->
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id = 'tblListLivro'>
             <thead>
                 <tr>
                     <th scope="col">Título</th>
@@ -57,7 +60,7 @@
 
                 <!-- Loop para exibir cada livro cadastrado no banco de dados -->
                 {% for livro in livros %}
-                <tr>
+                <tr data-livro = "{{ livro.titulo | lower }}">
                     <td>{{ livro.titulo }}</td>
                     <td>{{ livro.autor }}</td>
                     <td>{{ livro.isbn }}</td>
@@ -105,4 +108,66 @@
 
 
 </div>
+
+<!--Script para filtrar nomes-->
+{% block scripts %}
+
+<script>
+    document.addEventListener(
+        
+        'DOMContentLoaded', 
+        function(){
+            const inputFiltro = document.getElementById('filtroLivro');
+            const tabelaLivro = document.getElementById('tblListLivro'); // Seleciona a tabela pelo ID
+            
+            // Verifica se a tabela e o input existem antes de prosseguir.
+            if (!tabelaLivro || !inputFiltro) {
+                console.error("Elementos 'tabelaLivro' ou 'filtroLivro' não encontrados.");
+                return;
+            }
+
+            // Seleciona as linhas da tabela após a verificação
+            const linhasTabela = tabelaLivro.querySelectorAll('tbody tr');
+
+            inputFiltro.addEventListener(
+                'keyup',
+                function(){
+                    
+                    const termoBusca = inputFiltro.value.toLowerCase().trim();
+                    
+                    linhasTabela.forEach(
+                        function(linha){
+                            
+                            // Obtém o nome do usuário do atributo data-usuario na linha <tr>
+                            const nomeUsuario = linha.getAttribute('data-Livro');
+                            
+                            // Verifica se é uma linha de dados (não a linha de "nenhum encontrado...")
+                            if (nomeUsuario){
+                                if (nomeUsuario.includes(termoBusca)){
+                                    // Mostra a linha
+                                    linha.style.display = ''; 
+                                } else {
+                                    // Esconde a linha
+                                    linha.style.display = 'none';
+                                }
+                            } else {
+                                // Garante que a linha de "Nenhum emprestimo encontrado..." não seja escondida.
+                                // Nota: Esta lógica deve ser revisada se você tiver mais de uma linha de "feedback"
+                                // mas para o seu caso simples, funciona.
+                                linha.style.display = ''; 
+                            }
+                        }
+                    );
+                }
+            );
+        }
+    );
+
+
+
+
+</script>
+
+{% endblock %}
+
 {% endblock %}
